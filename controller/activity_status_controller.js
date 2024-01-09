@@ -41,7 +41,6 @@ function addActivityStatus(req, res) {
 
 function updateActivityStatus(req, res) {
   const activityStatus = {
-    ActivityStatusId: req.body.activityStatusId,
     Name: req.body.name,
     IsActive: req.body.isActive
   };
@@ -53,10 +52,7 @@ function updateActivityStatus(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 404,
             timestamp: Date.now(),
-            message: "User with this email not found!",
-            data: {
-              email: user.email
-            },
+            message: `Activity status with ${req.body.activityStatusId} not found!`,
           },
         });
       } else {

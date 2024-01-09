@@ -2,7 +2,7 @@ const serviceTechModel = require("../model/service_tech_model");
 
 function addServiceTech(req, res) {
   const serviceTech = {
-    ServiceTechMail: req.body.email,
+    ServiceTechMail: req.body.serviceTechEmail,
     IsActive: req.body.isActive,
   };
   serviceTechModel
@@ -41,17 +41,25 @@ function addServiceTech(req, res) {
 
 function updateServiceTech(req, res) {
   const serviceTech = {
-    ServiceTechId: req.body.serviceTechId,
-    ServiceTechMail: req.body.email,
+    ServiceTechEmail: req.body.serviceTechEmail,
     IsActive: req.body.isActive
   };
   serviceTechModel
-    .findOne({ where: req.body.id })
-    .then((service) => {
-      if (service === null) {
+    .findOne({ where: {ServiceTechId: req.body.serviceTechId}})
+    .then((serviceTechResult) => {
+      if (serviceTechResult === null) {
+        res.status(404).json({
+          [process.env.PROJECT_NAME]: {
+            status: 404,
+            timestamp: Date.now(),
+            message: `Service Tech with ${req.body.serviceTechId} not found!`,
+            data: serviceTechResult
+          },
+        });
+      } else {
         serviceTechModel
           .update(serviceTech, {
-            where: { ServiceTechId: req.body.serciceTechId },
+            where: {ServiceTechId: req.body.serviceTechId},
           })
           .then((result) => {
             if (result) {
@@ -59,17 +67,16 @@ function updateServiceTech(req, res) {
                 [process.env.PROJECT_NAME]: {
                   status: 200,
                   timestamp: Date.now(),
-                  message: "ServiceTech Updated",
-                  data: result,
+                  message: "Service Tech Updated",
+                  data: serviceTech,
                 },
               });
             } else {
-              res.status(200).json({
+              res.status(500).json({
                 [process.env.PROJECT_NAME]: {
-                  status: 200,
+                  status: 500,
                   timestamp: Date.now(),
-                  message: "ServiceTech Updated",
-                  data: result,
+                  message: "Unable to create ServiceTech",
                 },
               });
             }
@@ -84,14 +91,6 @@ function updateServiceTech(req, res) {
               },
             });
           });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to update the ServiceTech",
-          },
-        });
       }
     })
     .catch((error) => {

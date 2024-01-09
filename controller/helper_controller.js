@@ -44,7 +44,6 @@ function addHelper(req, res) {
 
 function updateHelper(req, res) {
   const helper = {
-    HelperId: req.body.helperId,
     EstimatedWorkStartDate: req.body.estimatedWorkStartDate,
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
@@ -59,10 +58,7 @@ function updateHelper(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 404,
             timestamp: Date.now(),
-            message: "User with this email not found!",
-            data: {
-              email: user.email
-            },
+            message: `Helper with ${req.body.helperId} not found!`,
           },
         });
       } else {
@@ -75,7 +71,7 @@ function updateHelper(req, res) {
                   status: 200,
                   timestamp: Date.now(),
                   message: "Helper Updated",
-                  data: result
+                  data: helper
                 },
               });
             } else {

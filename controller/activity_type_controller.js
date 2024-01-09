@@ -13,7 +13,7 @@ function addActivityType(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 201,
             timestamp: Date.now(),
-            message: "ActivityType Created",
+            message: "Activity Type Created",
             data: result
           },
         });
@@ -22,7 +22,7 @@ function addActivityType(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 500,
             timestamp: Date.now(),
-            message: "Unable to create ActivityType",
+            message: "Unable to create Activity Type",
           },
         });
       }
@@ -41,7 +41,6 @@ function addActivityType(req, res) {
 
 function updateActivityType(req, res) {
   const activityType = {
-    ActivityTypeId: req.body.activityTypeId,
     ActivityName: req.body.activityName,
     IsActive: req.body.isActive
   };
@@ -53,23 +52,20 @@ function updateActivityType(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 404,
             timestamp: Date.now(),
-            message: "User with this email not found!",
-            data: {
-              email: user.email
-            },
+            message: `Activity Type with ${req.body.activityTypeId} not found`,
           },
         });
       } else {
         activityTypeModel
-          .update(activityType, { where: { ActivityTypeId: req.body.activityTypeId } })
+          .update(activityType, { where: { ActivityTypeId: req.body.activityTypeId }})
           .then((result) => {
             if (result) {
               res.status(200).json({
                 [process.env.PROJECT_NAME]: {
                   status: 200,
                   timestamp: Date.now(),
-                  message: "ActivityType Updated",
-                  data: result
+                  message: "Activity Type Updated",
+                  data: activityType
                 },
               });
             } else {
@@ -77,7 +73,7 @@ function updateActivityType(req, res) {
                 [process.env.PROJECT_NAME]: {
                   status: 500,
                   timestamp: Date.now(),
-                  message: "Unable to update the ActivityType",
+                  message: "Unable to update the Activity Type",
                 },
               });
             }
@@ -108,7 +104,7 @@ function getAllActivityTypes(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 200,
             timestamp: Date.now(),
-            message: "Fetched All ActivityType",
+            message: "Fetched All Activity Type",
             data: result
           },
         });
@@ -117,7 +113,7 @@ function getAllActivityTypes(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 500,
             timestamp: Date.now(),
-            message: "Unable to fetch ActivityTypes",
+            message: "Unable to fetch Activity Types",
           },
         });
       }

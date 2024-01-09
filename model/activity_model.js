@@ -38,10 +38,10 @@ const Activity = db.define(
     ActualWorkStartLONG: {
         type: Sequelize.DataTypes.STRING,
     },
-    WorkEndLAT: {
+    ActualWorkEndLAT: {
         type: Sequelize.DataTypes.STRING,
     },
-    WorkeEndLONG: {
+    ActualWorkEndLONG: {
         type: Sequelize.DataTypes.STRING,
     },
     TruckId: {
@@ -55,7 +55,7 @@ const Activity = db.define(
     },
     IsActive: {
         type: Sequelize.DataTypes.BOOLEAN,
-        default: false,
+        default: true,
     },
   },
   {
