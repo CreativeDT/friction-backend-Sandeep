@@ -3,7 +3,7 @@ const activityTypeModel = require("../model/activity_type_model");
 function addActivityType(req, res) {
   const activityType = {
     ActivityName: req.body.activityName,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   activityTypeModel
     .create(activityType)
@@ -14,7 +14,7 @@ function addActivityType(req, res) {
             status: 201,
             timestamp: Date.now(),
             message: "Activity Type Created",
-            data: result
+            data: result,
           },
         });
       } else {
@@ -33,7 +33,7 @@ function addActivityType(req, res) {
           status: 500,
           timestamp: Date.now(),
           message: "Something Went Wrong!",
-          data: error
+          data: error,
         },
       });
     });
@@ -42,7 +42,7 @@ function addActivityType(req, res) {
 function updateActivityType(req, res) {
   const activityType = {
     ActivityName: req.body.activityName,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   activityTypeModel
     .findOne({ where: { ActivityTypeId: req.body.activityTypeId } })
@@ -57,7 +57,9 @@ function updateActivityType(req, res) {
         });
       } else {
         activityTypeModel
-          .update(activityType, { where: { ActivityTypeId: req.body.activityTypeId }})
+          .update(activityType, {
+            where: { ActivityTypeId: req.body.activityTypeId },
+          })
           .then((result) => {
             if (result) {
               res.status(200).json({
@@ -65,7 +67,7 @@ function updateActivityType(req, res) {
                   status: 200,
                   timestamp: Date.now(),
                   message: "Activity Type Updated",
-                  data: activityType
+                  data: activityType,
                 },
               });
             } else {
@@ -84,7 +86,7 @@ function updateActivityType(req, res) {
                 status: 500,
                 timestamp: Date.now(),
                 message: "Something Went Wrong!",
-                data: error
+                data: error,
               },
             });
           });
@@ -95,7 +97,7 @@ function updateActivityType(req, res) {
 function getAllActivityTypes(req, res) {
   activityTypeModel
     .findAll({
-      where: {IsActive: true},
+      where: { IsActive: true },
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
@@ -105,7 +107,7 @@ function getAllActivityTypes(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "Fetched All Activity Type",
-            data: result
+            data: result,
           },
         });
       } else {
@@ -124,7 +126,7 @@ function getAllActivityTypes(req, res) {
           status: 500,
           timestamp: Date.now(),
           message: "Something Went Wrong!",
-          data: error
+          data: error,
         },
       });
     });

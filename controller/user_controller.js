@@ -128,7 +128,7 @@ function updateProfile(req, res) {
     Mobile: req.body.mobile,
     PhotoURL: req.body.photoUrl,
     IsManager: req.body.isManager,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   userModel
     .findOne({ where: { Email: req.body.email } })
@@ -235,15 +235,16 @@ function getUserProfile(req, res) {
 function getAllTheUsers(req, res) {
   userModel
     .findAll({
-      where: {IsActive: true},
-      attributes: { exclude: ["CreatedAt", "UpdatedAt"] }})
+      where: { IsActive: true },
+      attributes: { exclude: ["CreatedAt", "UpdatedAt"] },
+    })
     .then((result) => {
       res.status(200).json({
         [process.env.PROJECT_NAME]: {
           status: 200,
           timestamp: Date.now(),
           message: "Getting All the Users!",
-          data: result
+          data: result,
         },
       });
     })

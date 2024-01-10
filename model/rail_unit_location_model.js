@@ -37,7 +37,7 @@ const RailUnitLocation = db.define(
       type: Sequelize.DataTypes.STRING,
     },
     Manufacturer: {
-      type: Sequelize.DataTypes.BOOLEAN,
+      type: Sequelize.DataTypes.STRING,
     },
     SingleDual: {
       type: Sequelize.DataTypes.INTEGER,

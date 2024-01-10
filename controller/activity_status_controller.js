@@ -3,7 +3,7 @@ const activityStatusModel = require("../model/activity_status_model");
 function addActivityStatus(req, res) {
   const activityStatus = {
     Name: req.body.name,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   activityStatusModel
     .create(activityStatus)
@@ -42,7 +42,7 @@ function addActivityStatus(req, res) {
 function updateActivityStatus(req, res) {
   const activityStatus = {
     Name: req.body.name,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   activityStatusModel
     .findOne({ where: { ActivityStatusId: req.body.activityStatusId } })
@@ -57,7 +57,9 @@ function updateActivityStatus(req, res) {
         });
       } else {
         activityStatusModel
-          .update(activityStatus, { where: { ActivityStatusId: req.body.activityStatusId } })
+          .update(activityStatus, {
+            where: { ActivityStatusId: req.body.activityStatusId },
+          })
           .then((result) => {
             if (result) {
               res.status(200).json({
@@ -65,7 +67,7 @@ function updateActivityStatus(req, res) {
                   status: 200,
                   timestamp: Date.now(),
                   message: "Activity Status Updated",
-                  data: result
+                  data: result,
                 },
               });
             } else {
@@ -84,7 +86,7 @@ function updateActivityStatus(req, res) {
                 status: 500,
                 timestamp: Date.now(),
                 message: "Something Went Wrong!",
-                data: error
+                data: error,
               },
             });
           });
@@ -95,8 +97,8 @@ function updateActivityStatus(req, res) {
 function getAllActivityStatuss(req, res) {
   activityStatusModel
     .findAll({
-      where: {IsActive: true},
-      attributes: {exclude:["CreatedAt", "UpdatedAt", "IsActive"]},
+      where: { IsActive: true },
+      attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
       if (result) {
@@ -105,7 +107,7 @@ function getAllActivityStatuss(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "Fetched All Activity Status",
-            data: result
+            data: result,
           },
         });
       } else {
@@ -124,7 +126,7 @@ function getAllActivityStatuss(req, res) {
           status: 500,
           timestamp: Date.now(),
           message: "Something Went Wrong!",
-          data: error
+          data: error,
         },
       });
     });

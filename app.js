@@ -2,7 +2,8 @@ const helperRoutes = require('./routes/helper_routes');
 const serviceTechRoutes = require('./routes/service_tech_routes');
 const activityTypeRoutes = require('./routes/activity_type_routes');
 const userRoutes = require('./routes/user_routes');
-// const activityStatusRoutes = require('./routes/activity_status_routes');
+const activityStatusRoutes = require('./routes/activity_status_routes');
+const activityRoutes = require("./routes/activity_routes");
 const express = require('express');
 const cors = require('cors');
 
@@ -19,6 +20,7 @@ app.use(`${process.env.API_URL}/user`, userRoutes);
 app.use(`${process.env.API_URL}/helper`, helperRoutes);
 app.use(`${process.env.API_URL}/service-tech`, serviceTechRoutes);
 app.use(`${process.env.API_URL}/activity-type`, activityTypeRoutes);
-// app.use(`${process.env.API_URL}/activity-status`, activityStatusRoutes);
+app.use(`${process.env.API_URL}/activity-status`, activityStatusRoutes);
+app.use(`${process.env.API_URL}/activity`, activityRoutes);
 
 module.exports = app;

@@ -32,16 +32,16 @@ const Activity = db.define(
     IsAmended : {
         type: Sequelize.DataTypes.BOOLEAN,
     },
-    ActualWorkStartLAT: {
+    ActualWorkStartLat: {
         type: Sequelize.DataTypes.STRING,
     },
-    ActualWorkStartLONG: {
+    ActualWorkStartLong: {
         type: Sequelize.DataTypes.STRING,
     },
-    ActualWorkEndLAT: {
+    ActualWorkEndLat: {
         type: Sequelize.DataTypes.STRING,
     },
-    ActualWorkEndLONG: {
+    ActualWorkEndLong: {
         type: Sequelize.DataTypes.STRING,
     },
     TruckId: {
@@ -67,10 +67,10 @@ const Activity = db.define(
   },
 );
 
-Activity.belongsTo(serviceTechModel, {foreignKey: "SeriviceTechId"});
-Activity.belongsTo(railUnitLocationModel, {foreignKey: "RailUnitLocationId"});
-Activity.belongsTo(activityTypeModel, {foreignKey: "ActivityTypeId"});
-Activity.belongsTo(activityStatusModel, {foreignKey: "ActivityStatusId"});
-Activity.belongsTo(userModel, {foreignKey: "CreatedBy"});
+// Activity.belongsTo(serviceTechModel, {foreignKey: "SeriviceTechId"});
+// Activity.belongsTo(railUnitLocationModel, {foreignKey: "RailUnitLocationId"});
+// Activity.belongsTo(activityTypeModel, {foreignKey: "ActivityTypeId"});
+// Activity.belongsTo(activityStatusModel, {foreignKey: "ActivityStatusId"});
+// Activity.belongsTo(userModel, {foreignKey: "CreatedBy"});
 
 module.exports = Activity;

@@ -6,7 +6,7 @@ function addHelper(req, res) {
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   helperModel
     .create(helper)
@@ -48,7 +48,7 @@ function updateHelper(req, res) {
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   helperModel
     .findOne({ where: { HelperId: req.body.helperId } })
@@ -71,7 +71,7 @@ function updateHelper(req, res) {
                   status: 200,
                   timestamp: Date.now(),
                   message: "Helper Updated",
-                  data: helper
+                  data: helper,
                 },
               });
             } else {
@@ -90,7 +90,7 @@ function updateHelper(req, res) {
                 status: 500,
                 timestamp: Date.now(),
                 message: "Something Went Wrong!",
-                data: error
+                data: error,
               },
             });
           });
@@ -101,8 +101,8 @@ function updateHelper(req, res) {
 function getAllHelpers(req, res) {
   helperModel
     .findAll({
-      where: {IsActive: true},
-      attributes: {exclude:["CreatedAt", "UpdatedAt", "IsActive"]},
+      where: { IsActive: true },
+      attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
       if (result) {
@@ -111,7 +111,7 @@ function getAllHelpers(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "Fetched All Helper",
-            data: result
+            data: result,
           },
         });
       } else {
@@ -130,7 +130,7 @@ function getAllHelpers(req, res) {
           status: 500,
           timestamp: Date.now(),
           message: "Something Went Wrong!",
-          data: error
+          data: error,
         },
       });
     });

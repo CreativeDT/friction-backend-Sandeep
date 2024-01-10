@@ -42,10 +42,10 @@ function addServiceTech(req, res) {
 function updateServiceTech(req, res) {
   const serviceTech = {
     ServiceTechEmail: req.body.serviceTechEmail,
-    IsActive: req.body.isActive
+    IsActive: req.body.isActive,
   };
   serviceTechModel
-    .findOne({ where: {ServiceTechId: req.body.serviceTechId}})
+    .findOne({ where: { ServiceTechId: req.body.serviceTechId } })
     .then((serviceTechResult) => {
       if (serviceTechResult === null) {
         res.status(404).json({
@@ -53,13 +53,13 @@ function updateServiceTech(req, res) {
             status: 404,
             timestamp: Date.now(),
             message: `Service Tech with ${req.body.serviceTechId} not found!`,
-            data: serviceTechResult
+            data: serviceTechResult,
           },
         });
       } else {
         serviceTechModel
           .update(serviceTech, {
-            where: {ServiceTechId: req.body.serviceTechId},
+            where: { ServiceTechId: req.body.serviceTechId },
           })
           .then((result) => {
             if (result) {
@@ -108,7 +108,7 @@ function updateServiceTech(req, res) {
 function getAllServiceTechs(req, res) {
   serviceTechModel
     .findAll({
-      where: {IsActive: true},
+      where: { IsActive: true },
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
