@@ -1,18 +1,21 @@
-const serviceTechModel = require("../model/service_tech_model");
+const checkInModel = require("./../model/checkin_model");
 
-function addServiceTech(req, res) {
-  const serviceTech = {
-    ServiceTechEmail: req.body.serviceTechEmail,
+function addCheckIn(req, res) {
+  const checkIn = {
+    StartDateTime: req.body.startDateTime,
+    EndDateTime: req.body.endDateTime,
+    ActivityId: req.body.activityId,
+    UserId: req.body.userId,
     IsActive: true,
   };
-  serviceTechModel
-    .create(serviceTech)
+  checkInModel
+    .create(checkIn)
     .then((result) => {
       res.status(201).json({
         [process.env.PROJECT_NAME]: {
           status: 201,
           timestamp: Date.now(),
-          message: "ServiceTech Created",
+          message: "CheckIn Created",
           data: result,
         },
       });
@@ -29,47 +32,37 @@ function addServiceTech(req, res) {
     });
 }
 
-function updateServiceTech(req, res) {
-  const serviceTech = {
-    ServiceTechEmail: req.body.serviceTechEmail,
+function updateCheckIn(req, res) {
+  const checkIn = {
+    StartDateTime: req.body.startDateTime,
+    EndDateTime: req.body.endDateTime,
+    ActivityId: req.body.activityId,
+    UserId: req.body.userId,
     IsActive: true,
   };
-  serviceTechModel
-    .findOne({ where: { ServiceTechId: req.body.serviceTechId } })
-    .then((serviceTechResult) => {
-      if (serviceTechResult === null) {
+  checkInModel
+    .findOne({ where: { CheckInId: req.body.checkInId } })
+    .then((result) => {
+      if (result === null) {
         res.status(404).json({
           [process.env.PROJECT_NAME]: {
             status: 404,
             timestamp: Date.now(),
-            message: `Service Tech with ${req.body.serviceTechId} not found!`,
-            data: serviceTechResult,
+            message: `CheckIn with ${req.body.checkInId} not found`,
           },
         });
       } else {
-        serviceTechModel
-          .update(serviceTech, {
-            where: { ServiceTechId: req.body.serviceTechId },
-          })
+        checkInModel
+          .update(checkIn, { where: { CheckInId: req.body.activityId } })
           .then((result) => {
-            if (result) {
-              res.status(200).json({
-                [process.env.PROJECT_NAME]: {
-                  status: 200,
-                  timestamp: Date.now(),
-                  message: "Service Tech Updated",
-                  data: serviceTech,
-                },
-              });
-            } else {
-              res.status(500).json({
-                [process.env.PROJECT_NAME]: {
-                  status: 500,
-                  timestamp: Date.now(),
-                  message: "Unable to create ServiceTech",
-                },
-              });
-            }
+            res.status(200).json({
+              [process.env.PROJECT_NAME]: {
+                status: 200,
+                timestamp: Date.now(),
+                message: "CheckIn Updated",
+                data: checkIn,
+              },
+            });
           })
           .catch((error) => {
             res.status(500).json({
@@ -95,28 +88,28 @@ function updateServiceTech(req, res) {
     });
 }
 
-function getAllServiceTechs(req, res) {
-  serviceTechModel
+function getCheckInsOfSepecificUser(req, res) {
+  checkInModel
     .findAll({
-      where: { IsActive: true },
+      where: { UserId: req.body.userId },
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
-      if (result) {
+      if (result === null) {
+        res.status(404).json({
+          [process.env.PROJECT_NAME]: {
+            status: 404,
+            timestamp: Date.now(),
+            message: `CheckIns for user ${req.body.userId} not found`,
+          },
+        });
+      } else {
         res.status(200).json({
           [process.env.PROJECT_NAME]: {
             status: 200,
             timestamp: Date.now(),
-            message: "Fetched All ServiceTech",
+            message: "CheckIn Updated",
             data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to fetch ServiceTechs",
           },
         });
       }
@@ -134,7 +127,7 @@ function getAllServiceTechs(req, res) {
 }
 
 module.exports = {
-  addServiceTech: addServiceTech,
-  updateServiceTech: updateServiceTech,
-  getAllServiceTechs: getAllServiceTechs,
+  addCheckIn: addCheckIn,
+  updateCheckIn: updateCheckIn,
+  getCheckInsOfSepecificUser: getCheckInsOfSepecificUser,
 };

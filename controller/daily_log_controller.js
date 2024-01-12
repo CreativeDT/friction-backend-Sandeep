@@ -1,18 +1,20 @@
-const serviceTechModel = require("../model/service_tech_model");
+const dailyLogModel = require("./../model/daily_log_model");
 
-function addServiceTech(req, res) {
-  const serviceTech = {
-    ServiceTechEmail: req.body.serviceTechEmail,
+function addDailyLog(req, res) {
+  const dailyLog = {
+    UploadedDateTime: req.body.uploadDateTime,
+    IsSuccess: true,
+    ActivityId: req.body.activityId,
     IsActive: true,
   };
-  serviceTechModel
-    .create(serviceTech)
+  dailyLogModel
+    .create(dailyLog)
     .then((result) => {
       res.status(201).json({
         [process.env.PROJECT_NAME]: {
           status: 201,
           timestamp: Date.now(),
-          message: "ServiceTech Created",
+          message: "DailyLog Created",
           data: result,
         },
       });
@@ -29,47 +31,36 @@ function addServiceTech(req, res) {
     });
 }
 
-function updateServiceTech(req, res) {
-  const serviceTech = {
-    ServiceTechEmail: req.body.serviceTechEmail,
+function updateDailyLog(req, res) {
+  const dailyLog = {
+    UploadedDateTime: req.body.uploadDateTime,
+    IsSuccess: true,
+    ActivityId: req.body.activityId,
     IsActive: true,
   };
-  serviceTechModel
-    .findOne({ where: { ServiceTechId: req.body.serviceTechId } })
-    .then((serviceTechResult) => {
-      if (serviceTechResult === null) {
+  dailyLogModel
+    .findOne({ where: { DailyLogId: req.body.dailyLogId } })
+    .then((result) => {
+      if (result === null) {
         res.status(404).json({
           [process.env.PROJECT_NAME]: {
             status: 404,
             timestamp: Date.now(),
-            message: `Service Tech with ${req.body.serviceTechId} not found!`,
-            data: serviceTechResult,
+            message: `DailyLog with ${req.body.dailyLogId} not found`,
           },
         });
       } else {
-        serviceTechModel
-          .update(serviceTech, {
-            where: { ServiceTechId: req.body.serviceTechId },
-          })
+        dailyLogModel
+          .update(dailyLog, { where: { DailyLogId: req.body.dailyLogId } })
           .then((result) => {
-            if (result) {
-              res.status(200).json({
-                [process.env.PROJECT_NAME]: {
-                  status: 200,
-                  timestamp: Date.now(),
-                  message: "Service Tech Updated",
-                  data: serviceTech,
-                },
-              });
-            } else {
-              res.status(500).json({
-                [process.env.PROJECT_NAME]: {
-                  status: 500,
-                  timestamp: Date.now(),
-                  message: "Unable to create ServiceTech",
-                },
-              });
-            }
+            res.status(200).json({
+              [process.env.PROJECT_NAME]: {
+                status: 200,
+                timestamp: Date.now(),
+                message: "DailyLog Updated",
+                data: dailyLog,
+              },
+            });
           })
           .catch((error) => {
             res.status(500).json({
@@ -95,28 +86,28 @@ function updateServiceTech(req, res) {
     });
 }
 
-function getAllServiceTechs(req, res) {
-  serviceTechModel
+function getDailyLogsOfSepecificActivity(req, res) {
+  dailyLogModel
     .findAll({
-      where: { IsActive: true },
+      where: { ActivityId: req.body.activityId },
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
-      if (result) {
+      if (result === null) {
+        res.status(404).json({
+          [process.env.PROJECT_NAME]: {
+            status: 404,
+            timestamp: Date.now(),
+            message: `DailyLogs for user ${req.body.activityId} not found`,
+          },
+        });
+      } else {
         res.status(200).json({
           [process.env.PROJECT_NAME]: {
             status: 200,
             timestamp: Date.now(),
-            message: "Fetched All ServiceTech",
+            message: "DailyLog Updated",
             data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to fetch ServiceTechs",
           },
         });
       }
@@ -134,7 +125,7 @@ function getAllServiceTechs(req, res) {
 }
 
 module.exports = {
-  addServiceTech: addServiceTech,
-  updateServiceTech: updateServiceTech,
-  getAllServiceTechs: getAllServiceTechs,
+  addDailyLog: addDailyLog,
+  updateDailyLog: updateDailyLog,
+  getDailyLogsOfSepecificActivity: getDailyLogsOfSepecificActivity,
 };

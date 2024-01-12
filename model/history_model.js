@@ -28,7 +28,7 @@ const History = db.define(
   },
 );
 
-History.belongTo(uploadTypeModel, { foreignKey: "UploadTypeId" });
-History.belongTo(userModel, { foreignKey: "UserId" });
+History.belongsTo(uploadTypeModel, { foreignKey: "UploadTypeId" });
+History.belongsTo(userModel, { foreignKey: "UserId" });
 
 module.exports = History;

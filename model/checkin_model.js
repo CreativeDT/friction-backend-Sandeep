@@ -16,8 +16,7 @@ const CheckIn = db.define(
     },
     EndDateTime: {
         type: Sequelize.DataTypes.STRING,
-    },
-    
+    }, 
     IsActive: {
       type: Sequelize.DataTypes.BOOLEAN,
       default: false,
@@ -32,7 +31,7 @@ const CheckIn = db.define(
   },
 );
 
-CheckIn.belongTo(activityModel, {foreignKey: "ActivityId"});
-CheckIn.belongTo(userModel, {foreignKey: "UserId"});
+CheckIn.belongsTo(activityModel, {foreignKey: "ActivityId"});
+CheckIn.belongsTo(userModel, {foreignKey: "UserId"});
 
 module.exports = CheckIn;

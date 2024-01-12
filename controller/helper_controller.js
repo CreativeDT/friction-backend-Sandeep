@@ -6,7 +6,7 @@ function addHelper(req, res) {
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   helperModel
     .create(helper)
@@ -48,7 +48,7 @@ function updateHelper(req, res) {
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   helperModel
     .findOne({ where: { HelperId: req.body.helperId } })

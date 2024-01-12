@@ -18,6 +18,7 @@ function userSignUp(req, res) {
         bcrypt.genSalt(10, function (error, salt) {
           const user = {
             Email: req.body.email,
+            IsActive: true,
           };
           userModel
             .create(user)
