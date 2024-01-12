@@ -33,6 +33,6 @@ const Parts = db.define(
   },
 );
 
-Parts.belongTo(supplierModel, {foreignKey: "SupplierId"});
+Parts.belongsTo(supplierModel, {foreignKey: "SupplierId"});
 
 module.exports = Parts;

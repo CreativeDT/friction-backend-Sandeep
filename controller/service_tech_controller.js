@@ -2,30 +2,20 @@ const serviceTechModel = require("../model/service_tech_model");
 
 function addServiceTech(req, res) {
   const serviceTech = {
-    ServiceTechMail: req.body.serviceTechEmail,
+    ServiceTechEmail: req.body.serviceTechEmail,
     IsActive: req.body.isActive,
   };
   serviceTechModel
     .create(serviceTech)
     .then((result) => {
-      if (result) {
-        res.status(201).json({
-          [process.env.PROJECT_NAME]: {
-            status: 201,
-            timestamp: Date.now(),
-            message: "ServiceTech Created",
-            data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to create ServiceTech",
-          },
-        });
-      }
+      res.status(201).json({
+        [process.env.PROJECT_NAME]: {
+          status: 201,
+          timestamp: Date.now(),
+          message: "ServiceTech Created",
+          data: result,
+        },
+      });
     })
     .catch((error) => {
       res.status(500).json({

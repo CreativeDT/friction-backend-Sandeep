@@ -105,24 +105,14 @@ function getAllHelpers(req, res) {
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
-      if (result) {
-        res.status(200).json({
-          [process.env.PROJECT_NAME]: {
-            status: 200,
-            timestamp: Date.now(),
-            message: "Fetched All Helper",
-            data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to fetch Helpers",
-          },
-        });
-      }
+      res.status(201).json({
+        [process.env.PROJECT_NAME]: {
+          status: 201,
+          timestamp: Date.now(),
+          message: "Fetched All Helper",
+          data: result,
+        },
+      });
     })
     .catch((error) => {
       res.status(500).json({

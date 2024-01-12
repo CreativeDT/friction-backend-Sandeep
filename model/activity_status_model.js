@@ -14,7 +14,7 @@ const ActivityStatus = db.define(
     },
     IsActive: {
       type: Sequelize.DataTypes.BOOLEAN,
-      default: false,
+      default: true,
     },
   },
   {
