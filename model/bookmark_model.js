@@ -28,7 +28,7 @@ const Bookmark = db.define(
   },
 );
 
-Bookmark.belongTo(activityModel, { foreignKey: "ActivityId" });
-Bookmark.belongTo(userModel, { foreignKey: "UserId" });
+Bookmark.belongsTo(activityModel, { foreignKey: "ActivityId" });
+Bookmark.belongsTo(userModel, { foreignKey: "UserId" });
 
 module.exports = Bookmark;

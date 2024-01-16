@@ -34,7 +34,6 @@ function userSignUp(req, res) {
                       timestamp: Date.now(),
                       token: token,
                       message: "User Created Successfully!",
-                      error: error,
                       data: {
                         email: result1.Email,
                       },

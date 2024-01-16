@@ -7,10 +7,10 @@ function addActivity(req, res) {
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
     IsAmended: req.body.isAmended,
-    ActualWorkStartLAT: req.body.actualWorkStartLat,
-    ActualWorkStartLONG: req.body.actualWorkStartLong,
-    ActualWorkEndLAT: req.body.actualEndWorkLat,
-    ActualWorkEndLONG: req.body.actualWorkEndLong,
+    ActualWorkStartLat: req.body.actualWorkStartLat,
+    ActualWorkStartLong: req.body.actualWorkStartLong,
+    ActualWorkEndLat: req.body.actualEndWorkLat,
+    ActualWorkEndLong: req.body.actualWorkEndLong,
     TruckId: req.body.truckId,
     MileageStart: req.body.mileageStart,
     MileageEnd: req.body.mileageEnd,
@@ -19,28 +19,19 @@ function addActivity(req, res) {
     ActivityTypeId: req.body.activityTypeId,
     ActivityStatusId: req.body.activityStatusId,
     CreatedBy: req.body.createdById,
+    IsActive: true,
   };
   activityModel
     .create(activity)
     .then((result) => {
-      if (result) {
-        res.status(201).json({
-          [process.env.PROJECT_NAME]: {
-            status: 201,
-            timestamp: Date.now(),
-            message: "Activity Created",
-            data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to Create Activity",
-          },
-        });
-      }
+      res.status(201).json({
+        [process.env.PROJECT_NAME]: {
+          status: 201,
+          timestamp: Date.now(),
+          message: "Activity Created",
+          data: result,
+        },
+      });
     })
     .catch((error) => {
       res.status(500).json({
@@ -61,10 +52,10 @@ function updateActivity(req, res) {
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
     IsAmended: req.body.isAmended,
-    ActualWorkStartLAT: req.body.actualWorkStartLat,
-    ActualWorkStartLONG: req.body.actualWorkStartLong,
-    ActualWorkEndLAT: req.body.actualEndWorkLat,
-    ActualWorkEndLONG: req.body.actualWorkEndLong,
+    ActualWorkStartLat: req.body.actualWorkStartLat,
+    ActualWorkStartLong: req.body.actualWorkStartLong,
+    ActualWorkEndLat: req.body.actualEndWorkLat,
+    ActualWorkEndLong: req.body.actualWorkEndLong,
     TruckId: req.body.truckId,
     MileageStart: req.body.mileageStart,
     MileageEnd: req.body.mileageEnd,
@@ -73,6 +64,7 @@ function updateActivity(req, res) {
     ActivityTypeId: req.body.activityTypeId,
     ActivityStatusId: req.body.activityStatusId,
     CreatedBy: req.body.createdById,
+    IsActive: true,
   };
   activityModel
     .findOne({ where: { ActivityId: req.body.activityId } })
@@ -140,8 +132,8 @@ function getAllActivity(req, res) {
         [process.env.PROJECT_NAME]: {
           status: 200,
           timestamp: Date.now(),
-          message: "Something Went Wrong!",
-          data: error,
+          message: "Activity Fetched",
+          data: result,
         },
       });
     })
@@ -170,7 +162,7 @@ function getSingleActivity(req, res) {
           },
         });
       } else {
-        res.status(202).json({
+        res.status(200).json({
           [process.env.PROJECT_NAME]: {
             status: 200,
             timestamp: Date.now(),

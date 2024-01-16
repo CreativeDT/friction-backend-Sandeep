@@ -4,10 +4,13 @@ const db = require("../utils/database_connection");
 const RailUnitLocation = db.define(
   "RailUnitLocation",
   {
-    RailUnitLocationId: {
+    Id: {
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    RailUnitLocationId: {
+      type: Sequelize.DataTypes.INTEGER,
     },
     Division: {
       type: Sequelize.DataTypes.STRING,
@@ -40,7 +43,7 @@ const RailUnitLocation = db.define(
       type: Sequelize.DataTypes.STRING,
     },
     SingleDual: {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.STRING,
     },
     Priority: {
       type: Sequelize.DataTypes.INTEGER,

@@ -3,29 +3,19 @@ const activityStatusModel = require("../model/activity_status_model");
 function addActivityStatus(req, res) {
   const activityStatus = {
     Name: req.body.name,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   activityStatusModel
     .create(activityStatus)
     .then((result) => {
-      if (result) {
-        res.status(201).json({
-          [process.env.PROJECT_NAME]: {
-            status: 201,
-            timestamp: Date.now(),
-            message: "Activity Status Created",
-            data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to create Activity Status",
-          },
-        });
-      }
+      res.status(201).json({
+        [process.env.PROJECT_NAME]: {
+          status: 201,
+          timestamp: Date.now(),
+          message: "Activity Status Created",
+          data: result,
+        },
+      });
     })
     .catch((error) => {
       res.status(500).json({
@@ -42,7 +32,7 @@ function addActivityStatus(req, res) {
 function updateActivityStatus(req, res) {
   const activityStatus = {
     Name: req.body.name,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   activityStatusModel
     .findOne({ where: { ActivityStatusId: req.body.activityStatusId } })

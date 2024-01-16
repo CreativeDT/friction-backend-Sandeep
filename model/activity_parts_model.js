@@ -25,7 +25,7 @@ const ActivityParts = db.define(
   },
 );
 
-ActivityParts.belongTo(activityModel, {foreignKey: "ActivityId"});
-ActivityParts.belongTo(partsModel, {foreignKey: "PartsId"});
+ActivityParts.belongsTo(activityModel, {foreignKey: "ActivityId"});
+ActivityParts.belongsTo(partsModel, {foreignKey: "PartsId"});
 
 module.exports = ActivityParts;

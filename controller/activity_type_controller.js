@@ -3,29 +3,19 @@ const activityTypeModel = require("../model/activity_type_model");
 function addActivityType(req, res) {
   const activityType = {
     ActivityName: req.body.activityName,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   activityTypeModel
     .create(activityType)
     .then((result) => {
-      if (result) {
-        res.status(201).json({
-          [process.env.PROJECT_NAME]: {
-            status: 201,
-            timestamp: Date.now(),
-            message: "Activity Type Created",
-            data: result,
-          },
-        });
-      } else {
-        res.status(500).json({
-          [process.env.PROJECT_NAME]: {
-            status: 500,
-            timestamp: Date.now(),
-            message: "Unable to create Activity Type",
-          },
-        });
-      }
+      res.status(201).json({
+        [process.env.PROJECT_NAME]: {
+          status: 201,
+          timestamp: Date.now(),
+          message: "Activity Type Created",
+          data: result,
+        },
+      });
     })
     .catch((error) => {
       res.status(500).json({
@@ -42,7 +32,7 @@ function addActivityType(req, res) {
 function updateActivityType(req, res) {
   const activityType = {
     ActivityName: req.body.activityName,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   activityTypeModel
     .findOne({ where: { ActivityTypeId: req.body.activityTypeId } })
