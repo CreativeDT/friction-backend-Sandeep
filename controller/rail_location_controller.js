@@ -22,7 +22,7 @@ function addRailLocation(req, res) {
     RMU: req.body.rmu,
     SerialNumber: req.body.serialNumber,
     PossibleStairsGateAccess: req.body.possibleStairsGateAccess,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   railLocationModel
     .create(railLocation)
@@ -70,7 +70,7 @@ function updateRailLocation(req, res) {
     RMU: req.body.rmu,
     SerialNumber: req.body.serialNumber,
     PossibleStairsGateAccess: req.body.possibleStairsGateAccess,
-    IsActive: req.body.isActive,
+    IsActive: true,
   };
   railLocationModel
     .findOne({ where: { RailLocationId: req.body.railLocationId } })

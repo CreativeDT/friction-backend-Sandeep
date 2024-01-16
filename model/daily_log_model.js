@@ -30,6 +30,6 @@ const DailyLog = db.define(
   },
 );
 
-DailyLog.belongTo(activityModel, {foreignKey: "ActivityId"});
+DailyLog.belongsTo(activityModel, {foreignKey: "ActivityId"});
 
 module.exports = DailyLog;
