@@ -5,10 +5,13 @@ const supplierModel = require("./supplier_model");
 const Parts = db.define(
   "Parts",
   {
-    PartsId: {
+    Id: {
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    PartsId: {
+      type: Sequelize.DataTypes.INTEGER,
     },
     SupplierPart: {
       type: Sequelize.DataTypes.STRING,
@@ -17,7 +20,7 @@ const Parts = db.define(
       type: Sequelize.DataTypes.STRING,
     },
     PartNumber: {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.STRING,
     },
     IsActive: {
       type: Sequelize.DataTypes.BOOLEAN,

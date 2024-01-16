@@ -67,10 +67,10 @@ const Activity = db.define(
   },
 );
 
-// Activity.belongsTo(serviceTechModel, {foreignKey: "SeriviceTechId"});
-// Activity.belongsTo(railUnitLocationModel, {foreignKey: "RailUnitLocationId"});
-// Activity.belongsTo(activityTypeModel, {foreignKey: "ActivityTypeId"});
-// Activity.belongsTo(activityStatusModel, {foreignKey: "ActivityStatusId"});
-// Activity.belongsTo(userModel, {foreignKey: "CreatedBy"});
+Activity.belongsTo(serviceTechModel, {foreignKey: "ServiceTechId"});
+Activity.belongsTo(railUnitLocationModel, {foreignKey: "RailUnitLocationId"});
+Activity.belongsTo(activityTypeModel, {foreignKey: "ActivityTypeId"});
+Activity.belongsTo(activityStatusModel, {foreignKey: "ActivityStatusId"});
+Activity.belongsTo(userModel, {foreignKey: "CreatedBy"});
 
 module.exports = Activity;

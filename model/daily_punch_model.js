@@ -30,6 +30,6 @@ const DailyPunch = db.define(
   },
 );
 
-DailyPunch.belongTo(userModel, {foreignKey: "UserId"});
+DailyPunch.belongsTo(userModel, {foreignKey: "UserId"});
 
 module.exports = DailyPunch;
