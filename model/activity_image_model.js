@@ -28,7 +28,7 @@ const ActivityImage = db.define(
   },
 );
 
-ActivityImage.belongTo(activityModel, {foreignKey: "ActivityId"});
-ActivityImage.belongTo(activityImageTypeModel, {foreignKey: "ActivityImageId"});
+ActivityImage.belongsTo(activityModel, {foreignKey: "ActivityId"});
+ActivityImage.belongsTo(activityImageTypeModel, {foreignKey: "ActivityImageTypeId"});
 
 module.exports = ActivityImage;
