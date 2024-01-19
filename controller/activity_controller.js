@@ -1,6 +1,19 @@
 const activityModel = require("./../model/activity_model");
+const serviceTechModel = require("./../model/service_tech_model");
+const railUnitLocationModel = require("./../model/rail_unit_location_model");
+const activityTypeModel = require("./../model/activity_type_model");
+const activityStatusModel = require("./../model/activity_status_model");
+const userModel = require("./../model/user_model");
 
 function addActivity(req, res) {
+  activityModel.beforeCreate(async (activities, options) => {
+    const activityCount = await activityModel.count();
+    const startingNumber = 10000;
+    const activitySerialNumber = `${String(
+      startingNumber + activityCount,
+    ).padStart(5, "0")}`;
+    activities.ActivityTypeSerialId = activitySerialNumber;
+  });
   const activity = {
     EstimatedWorkStartDate: req.body.estimatedWorkStartDate,
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
@@ -14,7 +27,7 @@ function addActivity(req, res) {
     TruckId: req.body.truckId,
     MileageStart: req.body.mileageStart,
     MileageEnd: req.body.mileageEnd,
-    SeriviceTechId: req.body.seriviceTechId,
+    ServiceTechId: req.body.serviceTechId,
     RailUnitLocationId: req.body.railUnitLocationId,
     ActivityTypeId: req.body.activityTypeId,
     ActivityStatusId: req.body.activityStatusId,
@@ -59,7 +72,7 @@ function updateActivity(req, res) {
     TruckId: req.body.truckId,
     MileageStart: req.body.mileageStart,
     MileageEnd: req.body.mileageEnd,
-    SeriviceTechId: req.body.seriviceTechId,
+    ServiceTechId: req.body.serviceTechId,
     RailUnitLocationId: req.body.railUnitLocationId,
     ActivityTypeId: req.body.activityTypeId,
     ActivityStatusId: req.body.activityStatusId,
@@ -125,7 +138,31 @@ function getAllActivity(req, res) {
       limit,
       offset,
       where: { IsActive: true },
-      attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
+      include: [
+        {
+          model: serviceTechModel,
+          attributes: ["ServiceTechEmail"],
+        },
+        {
+          model: railUnitLocationModel,
+          attributes: ["RailRoad"],
+        },
+        {
+          model: activityTypeModel,
+          attributes: ["ActivityName"],
+        },
+        {
+          model: activityStatusModel,
+          attributes: ["Name"],
+        },
+        {
+          model: userModel,
+          attributes: ["Email"],
+        },
+      ],
+      attributes: {
+        exclude: ["CreatedAt", "UpdatedAt", "IsActive"],
+      },
     })
     .then((result) => {
       res.status(200).json({
@@ -133,7 +170,37 @@ function getAllActivity(req, res) {
           status: 200,
           timestamp: Date.now(),
           message: "Activity Fetched",
-          data: result,
+          // data: result
+          data: result.map((activity) => {
+            return {
+              ActivityId: activity.ActivityId,
+              ActivityTypeSerialId: activity.ActivityTypeSerialId,
+              EstimatedWorkStartDate: activity.EstimatedWorkStartDate,
+              EstimatedWorkEndDate: activity.EstimatedWorkEndDate,
+              ActualWorkStartDate: activity.ActualWorkStartDate,
+              ActualWorkEndDate: activity.ActualWorkEndDate,
+              ActualWorkStartLat: activity.ActualWorkStartLat,
+              ActualWorkStartLong: activity.ActualWorkStartLong,
+              ActualWorkEndLat: activity.ActualWorkEndLat,
+              ActualWorkEndLong: activity.ActualWorkEndLong,
+              TruckId: activity.truckId,
+              MileageStart: activity.MileageStart,
+              MileageEnd: activity.MileageEnd,
+              ServiceTechEmail: activity.ServiceTechId
+                ? activity.ServiceTech.ServiceTechEmail
+                : null,
+              RailLocation: activity.RailUnitLocationId
+                ? activity.RailUnitLocation.RailRoad
+                : null,
+              ActivityType: activity.ActivityTypeId
+                ? activity.ActivityType.ActivityName
+                : null,
+              ActivityStatus: activity.ActivityStatusId
+                ? activity.ActivityStatus.Name
+                : null,
+              CreatedBy: activity.CreatedBy ? activity.User.Email : null,
+            };
+          }),
         },
       });
     })
@@ -151,9 +218,33 @@ function getAllActivity(req, res) {
 
 function getSingleActivity(req, res) {
   activityModel
-    .findOne({ where: { ActivityId: req.body.activityId } })
-    .then((activityResult) => {
-      if (activityResult === null) {
+    .findOne({
+      where: { ActivityId: req.body.activityId },
+      include: [
+        {
+          model: serviceTechModel,
+          attributes: ["ServiceTechEmail"],
+        },
+        {
+          model: railUnitLocationModel,
+          attributes: ["RailRoad"],
+        },
+        {
+          model: activityTypeModel,
+          attributes: ["ActivityName"],
+        },
+        {
+          model: activityStatusModel,
+          attributes: ["Name"],
+        },
+        {
+          model: userModel,
+          attributes: ["Email"],
+        },
+      ],
+    })
+    .then((activity) => {
+      if (activity === null) {
         res.status(404).json({
           [process.env.PROJECT_NAME]: {
             status: 404,
@@ -167,7 +258,34 @@ function getSingleActivity(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "Loaded Activity",
-            data: activityResult,
+            data: {
+              ActivityId: activity.ActivityId,
+              ActivityTypeSerialId: activity.ActivityTypeSerialId,
+              EstimatedWorkStartDate: activity.EstimatedWorkStartDate,
+              EstimatedWorkEndDate: activity.EstimatedWorkEndDate,
+              ActualWorkStartDate: activity.ActualWorkStartDate,
+              ActualWorkEndDate: activity.ActualWorkEndDate,
+              ActualWorkStartLat: activity.ActualWorkStartLat,
+              ActualWorkStartLong: activity.ActualWorkStartLong,
+              ActualWorkEndLat: activity.ActualWorkEndLat,
+              ActualWorkEndLong: activity.ActualWorkEndLong,
+              TruckId: activity.truckId,
+              MileageStart: activity.MileageStart,
+              MileageEnd: activity.MileageEnd,
+              ServiceTechEmail: activity.ServiceTechId
+                ? activity.ServiceTech.ServiceTechEmail
+                : null,
+              RailLocation: activity.RailUnitLocationId
+                ? activity.RailUnitLocation.RailRoad
+                : null,
+              ActivityType: activity.ActivityTypeId
+                ? activity.ActivityType.ActivityName
+                : null,
+              ActivityStatus: activity.ActivityStatusId
+                ? activity.ActivityStatus.Name
+                : null,
+              CreatedBy: activity.CreatedBy ? activity.User.Email : null,
+            },
           },
         });
       }
