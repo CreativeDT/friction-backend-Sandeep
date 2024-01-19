@@ -1,5 +1,4 @@
 const userModel = require("./../model/user_model");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 function userSignUp(req, res) {
@@ -15,45 +14,43 @@ function userSignUp(req, res) {
           },
         });
       } else {
-        bcrypt.genSalt(10, function (error, salt) {
-          const user = {
-            Email: req.body.email,
-            IsActive: true,
-          };
-          userModel
-            .create(user)
-            .then((result1) => {
-              const token = jwt.sign(
-                {
-                  email: user.Email,
-                },
-                process.env.JWT_KEY,
-                function (error, token) {
-                  res.status(201).json({
-                    [process.env.PROJECT_NAME]: {
-                      status: 201,
-                      timestamp: Date.now(),
-                      token: token,
-                      message: "User Created Successfully!",
-                      data: {
-                        email: result1.Email,
-                      },
+        const user = {
+          Email: req.body.email,
+          IsActive: true,
+        };
+        userModel
+          .create(user)
+          .then((result1) => {
+            const token = jwt.sign(
+              {
+                email: user.Email,
+              },
+              process.env.JWT_KEY,
+              function (error, token) {
+                res.status(201).json({
+                  [process.env.PROJECT_NAME]: {
+                    status: 201,
+                    timestamp: Date.now(),
+                    token: token,
+                    message: "User Created Successfully!",
+                    data: {
+                      email: result1.Email,
                     },
-                  });
-                },
-              );
-            })
-            .catch((error) => {
-              res.status(500).json({
-                [process.env.PROJECT_NAME]: {
-                  status: 500,
-                  timestamp: Date.now(),
-                  message: "Something Went Wrong!",
-                  data: error,
-                },
-              });
+                  },
+                });
+              },
+            );
+          })
+          .catch((error) => {
+            res.status(500).json({
+              [process.env.PROJECT_NAME]: {
+                status: 500,
+                timestamp: Date.now(),
+                message: "Something Went Wrong!",
+                data: error,
+              },
             });
-        });
+          });
       }
     })
     .catch((error) => {
