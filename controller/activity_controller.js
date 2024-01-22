@@ -4,6 +4,7 @@ const railUnitLocationModel = require("./../model/rail_unit_location_model");
 const activityTypeModel = require("./../model/activity_type_model");
 const activityStatusModel = require("./../model/activity_status_model");
 const userModel = require("./../model/user_model");
+const { Op } = require("sequelize");
 
 function addActivity(req, res) {
   activityModel.beforeCreate(async (activities, options) => {
@@ -130,14 +131,63 @@ function updateActivity(req, res) {
 }
 
 function getAllActivity(req, res) {
-  const page = parseInt(req.body.pageNumber) || 1;
-  const limit = parseInt(req.body.limit) || 10;
+  // Paginination
+  const page =
+    parseInt(req.body.pageNumber) || parseInt(process.env.DEFAULT_PAGE_NUMBER);
+  const limit =
+    parseInt(req.body.limit) || parseInt(process.env.DEFAULT_PAGE_LENGTH);
   const offset = (page - 1) * limit;
+  // Filter Records
+  const {
+    filterActivityTypeId,
+    filterServiceTechId,
+    filterActualWorkStartDate,
+    filterActualWorkEndDate,
+    filterRailLine,
+    filterMilePost,
+    filterDivision,
+    filterSubDivision,
+  } = req.body;
+
+  const whereClause = {
+    IsActive: true,
+  };
+
+  if (filterActivityTypeId) {
+    whereClause.ActivityTypeId = filterActivityTypeId;
+  }
+
+  if (filterServiceTechId) {
+    whereClause.ServiceTechId = filterServiceTechId;
+  }
+
+  if (filterActualWorkStartDate && filterActualWorkEndDate) {
+    whereClause.ActualWorkStartDate = {
+      [Op.between]: [filterActualWorkStartDate, filterActualWorkEndDate],
+    };
+  }
+
+  if (filterRailLine) {
+    whereClause["$RailUnitLocation.RailRoad$"] = filterRailLine;
+  }
+
+  if (filterMilePost) {
+    whereClause["$RailUnitLocation.MilePost$"] = filterMilePost;
+  }
+
+  if (filterDivision) {
+    whereClause["$RailUnitLocation.Division$"] = filterDivision;
+  }
+
+  if (filterSubDivision) {
+    whereClause["$RailUnitLocation.SubDivision$"] = filterSubDivision;
+  }
+
   activityModel
-    .findAll({
+    .findAndCountAll({
       limit,
       offset,
-      where: { IsActive: true },
+      where: whereClause,
       include: [
         {
           model: serviceTechModel,
@@ -145,7 +195,7 @@ function getAllActivity(req, res) {
         },
         {
           model: railUnitLocationModel,
-          attributes: ["RailRoad"],
+          attributes: ["RailRoad", "Division", "SubDivision", "MilePost"],
         },
         {
           model: activityTypeModel,
@@ -170,8 +220,8 @@ function getAllActivity(req, res) {
           status: 200,
           timestamp: Date.now(),
           message: "Activity Fetched",
-          // data: result
-          data: result.map((activity) => {
+          totalCount: result.count,
+          data: result.rows.map((activity) => {
             return {
               ActivityId: activity.ActivityId,
               ActivityTypeSerialId: activity.ActivityTypeSerialId,

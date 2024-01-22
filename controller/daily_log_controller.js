@@ -1,4 +1,6 @@
 const dailyLogModel = require("./../model/daily_log_model");
+const activityModel = require("./../model/activity_model");
+const serviceTechModel = require("./../model/service_tech_model");
 
 function addDailyLog(req, res) {
   const dailyLog = {
@@ -87,10 +89,60 @@ function updateDailyLog(req, res) {
 }
 
 function getDailyLogsOfSepecificActivity(req, res) {
+  // Paginination
+  const page =
+    parseInt(req.body.pageNumber) || parseInt(process.env.DEFAULT_PAGE_NUMBER);
+  const limit =
+    parseInt(req.body.limit) || parseInt(process.env.DEFAULT_PAGE_LENGTH);
+  const offset = (page - 1) * limit;
+  // Filter Records
+  const {
+    filterServiceTechId, 
+    filterActualWorkStartDate,
+    filterActualWorkEndDate,
+    // search,
+  } = req.body;
+
+  const whereClause = {
+    IsActive: true,
+  };
+
+  if (filterServiceTechId) {
+    whereClause.ServiceTechId = filterServiceTechId;
+  }
+
+  if (filterActualWorkStartDate && filterActualWorkEndDate) {
+    whereClause.ActualWorkStartDate = {
+      [Op.between]: [filterActualWorkStartDate, filterActualWorkEndDate],
+    };
+  }
+
+  // if (search) {
+  //   whereClause[Op.or] = [
+  //     { Division: { [Op.like]: `%${search}%` } },
+  //     { SubDivision: { [Op.like]: `%${search}%` } },
+  //     { MilePost: { [Op.like]: `%${search}%` } },
+  //     { Railroad: { [Op.like]: `%${search}%` } },
+  //   ];
+  // }
+
   dailyLogModel
-    .findAll({
-      where: { ActivityId: req.body.activityId },
-      attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
+    .findAndCountAll({
+      limit,
+      offset,
+      where: whereClause,
+      attributes: {
+        include: [
+          {
+            model: serviceTechModel,
+            attributes: ["ServiceTechEmail"],
+          },
+          {
+            model: activityModel,
+          },
+        ],
+        exclude: ["CreatedAt", "UpdatedAt", "IsActive"],
+      },
     })
     .then((result) => {
       if (result === null) {
@@ -107,7 +159,8 @@ function getDailyLogsOfSepecificActivity(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "DailyLog Updated",
-            data: result,
+            totalCount: result.count,
+            data: result.rows,
           },
         });
       }

@@ -3,10 +3,10 @@ const fs = require("fs");
 
 function addActivityImage(req, res) {
   const activityImage = {
-    ImageUrl: req.file.path.replace(/\\/g, "/"),
     ActivityId: req.body.activityId,
     ActivityImageTypeId: req.body.activityImageTypeId,
     ActivityTypeSerialId: req.body.activityTypeSerialId,
+    ImageUrl: req.file.path.replace(/\\/g, "/"),
     IsActive: true,
   };
   activityImageModel
@@ -35,10 +35,10 @@ function addActivityImage(req, res) {
 
 function updateActivityImage(req, res) {
   const activityImage = {
-    ImageUrl: req.file.path.replace(/\\/g, "/"),
     ActivityId: req.body.activityId,
     ActivityImageTypeId: req.body.activityImageTypeId,
     ActivityTypeSerialId: req.body.activityTypeSerialId,
+    ImageUrl: req.file.path.replace(/\\/g, "/"),
     IsActive: true,
   };
   activityImageModel
@@ -73,7 +73,7 @@ function updateActivityImage(req, res) {
                     status: 200,
                     timestamp: Date.now(),
                     message: "Activity Image Updated",
-                    data: result,
+                    data: activityImage,
                   },
                 });
               } else {
@@ -108,7 +108,7 @@ function updateActivityImage(req, res) {
                     status: 200,
                     timestamp: Date.now(),
                     message: "Activity Image Updated",
-                    data: result,
+                    data: activityImage,
                   },
                 });
               } else {

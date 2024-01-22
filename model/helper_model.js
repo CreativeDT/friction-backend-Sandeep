@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../utils/database_connection");
 const serviceTechModel = require("./service_tech_model");
-const activityModel = require('./activity_model');
+const activityModel = require("./activity_model");
 
 const Helper = db.define(
   "Helper",
@@ -23,10 +23,10 @@ const Helper = db.define(
     ActualWorkEndDate: {
       type: Sequelize.DataTypes.STRING,
     },
-    IsActive : {
+    IsActive: {
       type: Sequelize.DataTypes.BOOLEAN,
       default: false,
-    }
+    },
   },
   {
     tableName: "Helper",
@@ -37,7 +37,7 @@ const Helper = db.define(
   },
 );
 
-Helper.belongsTo(serviceTechModel, {foreignKey: "ServiceTechId"});
-Helper.belongsTo(activityModel, {foreignKey: "ActivityId"});
+Helper.belongsTo(serviceTechModel, { foreignKey: "ServiceTechId" });
+Helper.belongsTo(activityModel, { foreignKey: "ActivityId" });
 
 module.exports = Helper;
