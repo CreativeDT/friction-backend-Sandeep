@@ -168,23 +168,23 @@ function getAllActivity(req, res) {
   }
 
   if (filterRailLine) {
-    whereClause.RailLocation.RailRoad = filterRailLine;
+    whereClause["$RailUnitLocation.RailRoad$"] = filterRailLine;
   }
 
   if (filterMilePost) {
-    whereClause.RailLocation.MilePost = filterMilePost;
+    whereClause["$RailUnitLocation.MilePost$"] = filterMilePost;
   }
 
   if (filterDivision) {
-    whereClause.RailLocation.Division = filterDivision;
+    whereClause["$RailUnitLocation.Division$"] = filterDivision;
   }
 
   if (filterSubDivision) {
-    whereClause.RailLocation.SubDivision = filterSubDivision;
+    whereClause["$RailUnitLocation.SubDivision$"] = filterSubDivision;
   }
 
   activityModel
-    .findAll({
+    .findAndCountAll({
       limit,
       offset,
       where: whereClause,
@@ -220,8 +220,8 @@ function getAllActivity(req, res) {
           status: 200,
           timestamp: Date.now(),
           message: "Activity Fetched",
-          // data: result
-          data: result.map((activity) => {
+          totalCount: result.count,
+          data: result.rows.map((activity) => {
             return {
               ActivityId: activity.ActivityId,
               ActivityTypeSerialId: activity.ActivityTypeSerialId,

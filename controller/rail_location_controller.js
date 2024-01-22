@@ -1,4 +1,5 @@
 const railLocationModel = require("./../model/rail_unit_location_model");
+const { Op } = require("sequelize");
 
 function addRailLocation(req, res) {
   const railLocation = {
@@ -123,9 +124,33 @@ function updateRailLocation(req, res) {
 }
 
 function getAllRailLocationUnits(req, res) {
+  // Paginination
+  const page =
+    parseInt(req.body.pageNumber) || parseInt(process.env.DEFAULT_PAGE_NUMBER);
+  const limit =
+    parseInt(req.body.limit) || parseInt(process.env.DEFAULT_PAGE_LENGTH);
+  const offset = (page - 1) * limit;
+  // Search
+  const { search } = req.body;
+
+  const whereClause = {
+    IsActive: true,
+  };
+
+  if (search) {
+    whereClause[Op.or] = [
+      { Division: { [Op.like]: `%${search}%` } },
+      { SubDivision: { [Op.like]: `%${search}%` } },
+      { MilePost: { [Op.like]: `%${search}%` } },
+      { Railroad: { [Op.like]: `%${search}%` } },
+    ];
+  }
+
   railLocationModel
-    .findAll({
-      where: { IsActive: true },
+    .findAndCountAll({
+      limit,
+      offset,
+      where: whereClause,
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
@@ -133,40 +158,9 @@ function getAllRailLocationUnits(req, res) {
         [process.env.PROJECT_NAME]: {
           status: 200,
           timestamp: Date.now(),
-          message: "Something Went Wrong!",
-          data: result,
-        },
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        [process.env.PROJECT_NAME]: {
-          status: 500,
-          timestamp: Date.now(),
-          message: "Something Went Wrong!",
-          data: error,
-        },
-      });
-    });
-}
-
-function getFilteredRailUnitLocation(req, res) {
-  railLocationModel
-    .findAll({
-      where: {
-        IsActive: true,
-        Division: req.body.division,
-        SubDivision: req.body.subDivision,
-        MilePost: req.body.milePost,
-      },
-    })
-    .then((result) => {
-      res.status(200).json({
-        [process.env.PROJECT_NAME]: {
-          status: 200,
-          timestamp: Date.now(),
-          message: "Fetched Division",
-          data: result,
+          message: "Fetched Rail Unit Locations",
+          totalCount: result.count,
+          data: result.rows,
         },
       });
     })
@@ -185,6 +179,5 @@ function getFilteredRailUnitLocation(req, res) {
 module.exports = {
   addRailLocation: addRailLocation,
   updateRailLocation: updateRailLocation,
-  getAllLocationUnits: getAllRailLocationUnits,
-  getFilteredRailUnitLocation: getFilteredRailUnitLocation,
+  getAllRailLocationUnits: getAllRailLocationUnits,
 };
