@@ -1,6 +1,6 @@
+const Sequelize = require("sequelize");
+const db = require("./../utils/database_connection");
 const dailyLogModel = require("./../model/daily_log_model");
-const activityModel = require("./../model/activity_model");
-const serviceTechModel = require("./../model/service_tech_model");
 
 function addDailyLog(req, res) {
   const dailyLog = {
@@ -95,55 +95,62 @@ function getDailyLogsOfSepecificActivity(req, res) {
   const limit =
     parseInt(req.body.limit) || parseInt(process.env.DEFAULT_PAGE_LENGTH);
   const offset = (page - 1) * limit;
+
   // Filter Records
   const {
-    filterServiceTechId, 
+    filterServiceTechId,
     filterActualWorkStartDate,
     filterActualWorkEndDate,
-    // search,
+    search,
   } = req.body;
 
-  const whereClause = {
-    IsActive: true,
-  };
+  let sqlQuery = `
+    SELECT
+      dl.*,
+      st.ServiceTechEmail,
+      a.*,
+      ru.*
+    FROM
+      dailylog dl
+      LEFT JOIN activity a ON dl.ActivityId = a.ActivityId
+      LEFT JOIN servicetech st ON a.ServiceTechId = st.ServiceTechId
+      LEFT JOIN railunitlocation ru ON a.RailUnitLocationId = ru.Id
+    WHERE
+      dl.IsActive = true
+  `;
+
+  if (search) {
+    sqlQuery += `
+      AND (
+        ru.Division LIKE '%${search}%'
+        OR ru.SubDivision LIKE '%${search}%'
+        OR ru.MilePost LIKE '%${search}%'
+        OR ru.Railroad LIKE '%${search}%'
+      )
+    `;
+  }
 
   if (filterServiceTechId) {
-    whereClause.ServiceTechId = filterServiceTechId;
+    sqlQuery += `
+      AND a.ServiceTechId = ${filterServiceTechId}
+    `;
   }
 
   if (filterActualWorkStartDate && filterActualWorkEndDate) {
-    whereClause.ActualWorkStartDate = {
-      [Op.between]: [filterActualWorkStartDate, filterActualWorkEndDate],
-    };
+    sqlQuery += `
+      AND (
+        STR_TO_DATE(a.ActualWorkStartDate, '%d/%m/%Y %H:%i:%s') BETWEEN STR_TO_DATE('${filterActualWorkStartDate}', '%d/%m/%Y %H:%i:%s')
+        AND STR_TO_DATE('${filterActualWorkEndDate}', '%d/%m/%Y %H:%i:%s')
+      )
+    `;
   }
 
-  // if (search) {
-  //   whereClause[Op.or] = [
-  //     { Division: { [Op.like]: `%${search}%` } },
-  //     { SubDivision: { [Op.like]: `%${search}%` } },
-  //     { MilePost: { [Op.like]: `%${search}%` } },
-  //     { Railroad: { [Op.like]: `%${search}%` } },
-  //   ];
-  // }
+  sqlQuery += `
+    ORDER BY dl.createdAt DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `;
 
-  dailyLogModel
-    .findAndCountAll({
-      limit,
-      offset,
-      where: whereClause,
-      attributes: {
-        include: [
-          {
-            model: serviceTechModel,
-            attributes: ["ServiceTechEmail"],
-          },
-          {
-            model: activityModel,
-          },
-        ],
-        exclude: ["CreatedAt", "UpdatedAt", "IsActive"],
-      },
-    })
+  db.query(sqlQuery, { type: Sequelize.QueryTypes.SELECT })
     .then((result) => {
       if (result === null) {
         res.status(404).json({
@@ -158,9 +165,9 @@ function getDailyLogsOfSepecificActivity(req, res) {
           [process.env.PROJECT_NAME]: {
             status: 200,
             timestamp: Date.now(),
-            message: "DailyLog Updated",
-            totalCount: result.count,
-            data: result.rows,
+            message: "Fetched Dailylog",
+            totalCount: result.length,
+            data: result,
           },
         });
       }
