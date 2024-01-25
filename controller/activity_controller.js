@@ -221,6 +221,7 @@ function getAllActivity(req, res) {
           timestamp: Date.now(),
           message: "Activity Fetched",
           totalCount: result.count,
+          // data: result.rows,
           data: result.rows.map((activity) => {
             return {
               ActivityId: activity.ActivityId,
