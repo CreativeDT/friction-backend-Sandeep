@@ -105,18 +105,28 @@ function getDailyLogsOfSepecificActivity(req, res) {
   } = req.body;
 
   let sqlQuery = `
-    SELECT
-      dl.*,
-      st.ServiceTechEmail,
-      a.*,
-      ru.*
-    FROM
-      dailylog dl
-      LEFT JOIN activity a ON dl.ActivityId = a.ActivityId
-      LEFT JOIN servicetech st ON a.ServiceTechId = st.ServiceTechId
-      LEFT JOIN railunitlocation ru ON a.RailUnitLocationId = ru.Id
-    WHERE
-      dl.IsActive = true
+  SELECT
+    dl.*,
+    st.ServiceTechEmail,
+    a.*,
+    ru.*,
+    IFNULL(helper_count.HelperCount, 0) AS HelperCount
+  FROM
+    dailylog dl
+    LEFT JOIN activity a ON dl.ActivityId = a.ActivityId
+    LEFT JOIN servicetech st ON a.ServiceTechId = st.ServiceTechId
+    LEFT JOIN railunitlocation ru ON a.RailUnitLocationId = ru.Id
+    LEFT JOIN (
+        SELECT
+            ActivityId,
+            COUNT(HelperId) AS HelperCount
+        FROM
+            helper
+        GROUP BY
+            ActivityId
+    ) AS helper_count ON a.ActivityId = helper_count.ActivityId
+  WHERE
+    dl.IsActive = true
   `;
 
   if (search) {

@@ -9,6 +9,7 @@ function addUploadHistory(req, res) {
     ActivityId: req.body.activityId,
     UploadTypeId: req.body.uploadTypeId,
     IsActive: true,
+    Status: true,
   };
   uploadHistoryModel
     .create(uploadHistory)
@@ -40,6 +41,7 @@ function updateUploadHistory(req, res) {
     ActivityId: req.body.activityId,
     UploadTypeId: req.body.uploadTypeId,
     IsActive: true,
+    Status: true,
   };
   uploadHistoryModel
     .findOne({ where: { UploadHistoryId: req.body.uploadHistoryId } })
@@ -128,6 +130,7 @@ function getAllUploadHistory(req, res) {
                 ServiceTechEmail:
                   uploadHistory.Activity.ServiceTech.ServiceTechEmail,
                 ActivityName: uploadHistory.ActivityType.ActivityName,
+                Status: uploadHistory.Status,
               };
             }),
           },
