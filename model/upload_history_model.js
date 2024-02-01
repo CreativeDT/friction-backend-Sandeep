@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../utils/database_connection");
 const activityModel = require("./activity_model");
-const activityTypeModel = require("./activity_type_model");
+const uploadTypeModel = require("./upload_type_model");
 
 const UploadHistory = db.define(
   "UploadHistory",
@@ -33,6 +33,6 @@ const UploadHistory = db.define(
 );
 
 UploadHistory.belongsTo(activityModel, { foreignKey: "ActivityId" });
-UploadHistory.belongsTo(activityTypeModel, { foreignKey: "UploadTypeId" });
+UploadHistory.belongsTo(uploadTypeModel, { foreignKey: "UploadTypeId" });
 
 module.exports = UploadHistory;
