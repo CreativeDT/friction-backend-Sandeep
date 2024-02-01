@@ -12,9 +12,13 @@ const UploadHistory = db.define(
       primaryKey: true,
     },
     UploadedDateTime: {
-        type: Sequelize.DataTypes.STRING,
+      type: Sequelize.DataTypes.STRING,
     },
     IsActive: {
+      type: Sequelize.DataTypes.BOOLEAN,
+      default: false,
+    },
+    Status: {
       type: Sequelize.DataTypes.BOOLEAN,
       default: false,
     },
@@ -28,7 +32,7 @@ const UploadHistory = db.define(
   },
 );
 
-UploadHistory.belongsTo(activityModel, {foreignKey: "ActivityId"});
-UploadHistory.belongsTo(activityTypeModel, {foreignKey: "UploadTypeId"});
+UploadHistory.belongsTo(activityModel, { foreignKey: "ActivityId" });
+UploadHistory.belongsTo(activityTypeModel, { foreignKey: "UploadTypeId" });
 
 module.exports = UploadHistory;

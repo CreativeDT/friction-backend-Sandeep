@@ -1,4 +1,7 @@
 const uploadHistoryModel = require("../model/upload_history_model");
+const activityModel = require("../model/activity_model");
+const serviceTechModel = require("../model/service_tech_model");
+const uploadTypeModel = require("../model/activity_type_model");
 
 function addUploadHistory(req, res) {
   const uploadHistory = {
@@ -6,6 +9,7 @@ function addUploadHistory(req, res) {
     ActivityId: req.body.activityId,
     UploadTypeId: req.body.uploadTypeId,
     IsActive: true,
+    Status: true,
   };
   uploadHistoryModel
     .create(uploadHistory)
@@ -37,6 +41,7 @@ function updateUploadHistory(req, res) {
     ActivityId: req.body.activityId,
     UploadTypeId: req.body.uploadTypeId,
     IsActive: true,
+    Status: true,
   };
   uploadHistoryModel
     .findOne({ where: { UploadHistoryId: req.body.uploadHistoryId } })
@@ -92,6 +97,22 @@ function getAllUploadHistory(req, res) {
   uploadHistoryModel
     .findAll({
       where: { IsActive: true },
+      include: [
+        {
+          model: activityModel,
+          attributes: ["ActivityTypeSerialId"],
+          include: [
+            {
+              model: serviceTechModel,
+              attributes: ["ServiceTechEmail"],
+            },
+          ],
+        },
+        {
+          model: uploadTypeModel,
+          attributes: ["ActivityName"],
+        },
+      ],
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
@@ -101,7 +122,17 @@ function getAllUploadHistory(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "Fetched All Upload History",
-            data: result,
+            data: result.map((uploadHistory) => {
+              return {
+                UploadHistoryId: uploadHistory.UploadHistoryId,
+                UploadedDateTime: uploadHistory.UploadedDateTime,
+                ActivitySerialId: uploadHistory.Activity.ActivityTypeSerialId,
+                ServiceTechEmail:
+                  uploadHistory.Activity.ServiceTech.ServiceTechEmail,
+                ActivityName: uploadHistory.ActivityType.ActivityName,
+                Status: uploadHistory.Status,
+              };
+            }),
           },
         });
       } else {

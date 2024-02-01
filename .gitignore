@@ -2,5 +2,7 @@ node_modules
 .env
 .prettierrc
 package-lock.json
+controller/bulk_add_controller.js
+routes/bulk_add_routes.js
 .gitignore
 uploads
