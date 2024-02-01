@@ -1,7 +1,7 @@
 const uploadHistoryModel = require("../model/upload_history_model");
 const activityModel = require("../model/activity_model");
 const serviceTechModel = require("../model/service_tech_model");
-const uploadTypeModel = require("../model/activity_type_model");
+const uploadTypeModel = require("../model/upload_type_model");
 
 function addUploadHistory(req, res) {
   const uploadHistory = {
@@ -110,7 +110,7 @@ function getAllUploadHistory(req, res) {
         },
         {
           model: uploadTypeModel,
-          attributes: ["ActivityName"],
+          attributes: ["UploadTypeName"],
         },
       ],
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
@@ -129,7 +129,7 @@ function getAllUploadHistory(req, res) {
                 ActivitySerialId: uploadHistory.Activity.ActivityTypeSerialId,
                 ServiceTechEmail:
                   uploadHistory.Activity.ServiceTech.ServiceTechEmail,
-                ActivityName: uploadHistory.ActivityType.ActivityName,
+                UploadType: uploadHistory.UploadType.UploadTypeName,
                 Status: uploadHistory.Status,
               };
             }),
