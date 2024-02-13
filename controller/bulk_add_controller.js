@@ -28536,7 +28536,6 @@ function addSuppliers(req, res) {
 function addSupplierParts(req, res) {
   const supplierParts = [
     {
-      PartsId: 6,
       SupplierId: 1,
       SupplierPart: "7883000905-P",
       PartNumber: "180589L",
@@ -28544,7 +28543,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 8,
       SupplierId: 1,
       SupplierPart: "7885000552",
       PartNumber: "180591L",
@@ -28552,7 +28550,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 9,
       SupplierId: 1,
       SupplierPart: "7883000904-P",
       PartNumber: "180593L",
@@ -28560,7 +28557,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 10,
       SupplierId: 1,
       SupplierPart: "7883000909-35DM",
       PartNumber: "180595L",
@@ -28568,7 +28564,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 11,
       SupplierId: 1,
       SupplierPart: "7883000909-50DM",
       PartNumber: "180596L",
@@ -28576,7 +28571,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 12,
       SupplierId: 1,
       SupplierPart: "3U-1200",
       PartNumber: "180723L",
@@ -28584,7 +28578,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 13,
       SupplierId: 1,
       SupplierPart: "7880110300",
       PartNumber: "180754",
@@ -28592,7 +28585,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 22,
       SupplierId: 2,
       SupplierPart: "",
       PartNumber: "181216",
@@ -28600,7 +28592,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 23,
       SupplierId: 2,
       SupplierPart: "",
       PartNumber: "H17438",
@@ -28608,7 +28599,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 24,
       SupplierId: 2,
       SupplierPart: "",
       PartNumber: "181344",
@@ -28616,7 +28606,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 26,
       SupplierId: 2,
       SupplierPart: "",
       PartNumber: "180930",
@@ -28624,7 +28613,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 32,
       SupplierId: 3,
       SupplierPart: "276800",
       PartNumber: "180604L",
@@ -28632,7 +28620,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 34,
       SupplierId: 3,
       SupplierPart: "85566",
       PartNumber: "180607L",
@@ -28640,7 +28627,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 47,
       SupplierId: 3,
       SupplierPart: "272180",
       PartNumber: "180811L",
@@ -28648,7 +28634,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 52,
       SupplierId: 3,
       SupplierPart: "279190",
       PartNumber: "180841L",
@@ -28656,7 +28641,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 66,
       SupplierId: 4,
       SupplierPart: "WRL212-12",
       PartNumber: "180651",
@@ -28664,7 +28648,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 69,
       SupplierId: 4,
       SupplierPart: "WRL211-30",
       PartNumber: "180654",
@@ -28672,7 +28655,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 72,
       SupplierId: 4,
       SupplierPart: "WRL205-13",
       PartNumber: "180657",
@@ -28680,7 +28662,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 118,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "175997",
@@ -28688,7 +28669,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 119,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176002",
@@ -28696,7 +28676,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 121,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176014",
@@ -28704,7 +28683,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 122,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176016",
@@ -28712,7 +28690,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 126,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176270",
@@ -28720,7 +28697,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 138,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176586",
@@ -28728,7 +28704,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 145,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176646",
@@ -28736,7 +28711,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 146,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176667",
@@ -28744,7 +28718,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 150,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176734 PT",
@@ -28752,7 +28725,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 151,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176774",
@@ -28760,7 +28732,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 156,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180281",
@@ -28768,7 +28739,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 161,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180348",
@@ -28776,7 +28746,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 162,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180349",
@@ -28784,7 +28753,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 163,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180355",
@@ -28792,7 +28760,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 168,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180395",
@@ -28800,7 +28767,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 171,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180413",
@@ -28808,7 +28774,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 173,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180448",
@@ -28816,7 +28781,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 175,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180452",
@@ -28824,7 +28788,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 179,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180496",
@@ -28832,7 +28795,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 186,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180554",
@@ -28840,7 +28802,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 188,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180580",
@@ -28848,7 +28809,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 194,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180694",
@@ -28856,7 +28816,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 202,
       SupplierId: 5,
       SupplierPart: "REMOTE MONITOR",
       PartNumber: "180772",
@@ -28864,7 +28823,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 208,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180823",
@@ -28872,7 +28830,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 210,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180844",
@@ -28880,7 +28837,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 211,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180845",
@@ -28888,7 +28844,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 212,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180848",
@@ -28896,7 +28851,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 218,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "181129",
@@ -28904,7 +28858,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 219,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "181121",
@@ -28912,7 +28865,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 221,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "208013",
@@ -28920,7 +28872,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 246,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180448RB",
@@ -28928,7 +28879,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 247,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "180449RB",
@@ -28936,7 +28886,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 248,
       SupplierId: 5,
       SupplierPart: "Loram/GageShield",
       PartNumber: "180857",
@@ -28944,7 +28893,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 250,
       SupplierId: 5,
       SupplierPart: "",
       PartNumber: "180857",
@@ -28952,7 +28900,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 251,
       SupplierId: 5,
       SupplierPart: "",
       PartNumber: "181782",
@@ -28960,7 +28907,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 256,
       SupplierId: 1,
       SupplierPart: "7880708250",
       PartNumber: "180582RB",
@@ -28968,7 +28914,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 264,
       SupplierId: 1,
       SupplierPart: "",
       PartNumber: "180599",
@@ -28976,7 +28921,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 265,
       SupplierId: 3,
       SupplierPart: "86005",
       PartNumber: "180609L",
@@ -28984,7 +28928,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 267,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176770",
@@ -28992,7 +28935,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 270,
       SupplierId: 5,
       SupplierPart: "Loram",
       PartNumber: "181092",
@@ -29000,7 +28942,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 271,
       SupplierId: 5,
       SupplierPart: "Loram",
       PartNumber: "181682",
@@ -29008,7 +28949,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 273,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176774RB",
@@ -29016,7 +28956,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 274,
       SupplierId: 5,
       SupplierPart: "Loram/Tracshield",
       PartNumber: "176775RB",
@@ -29024,7 +28963,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 275,
       SupplierId: 5,
       SupplierPart: "Loram",
       PartNumber: "181422",
@@ -29032,7 +28970,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 279,
       SupplierId: 5,
       SupplierPart: "181413",
       PartNumber: "181413",
@@ -29040,7 +28977,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 281,
       SupplierId: 5,
       SupplierPart: "",
       PartNumber: "181839",
@@ -29048,7 +28984,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 283,
       SupplierId: 5,
       SupplierPart: "",
       PartNumber: "176649",
@@ -29056,7 +28991,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 284,
       SupplierId: 5,
       SupplierPart: "181926",
       PartNumber: "181926",
@@ -29064,7 +28998,6 @@ function addSupplierParts(req, res) {
       IsActive: true,
     },
     {
-      PartsId: 285,
       SupplierId: 5,
       SupplierPart: "181926",
       PartNumber: "181926",

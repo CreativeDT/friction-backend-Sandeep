@@ -265,7 +265,6 @@ function getAllActivity(req, res) {
               ActivityStatus: activity.ActivityStatusId
                 ? activity.ActivityStatus.Name
                 : null,
-              Helper: null,
               CreatedBy: activity.CreatedBy ? activity.User.Email : null,
             };
           }),
@@ -379,9 +378,65 @@ function getSingleActivity(req, res) {
     });
 }
 
+function updateActivityStatus(req, res) {
+  const activity = {
+    ActivityStatusId: req.body.activityStatusId,
+    Description: req.body.description,
+  };
+  activityModel
+    .findOne({ where: { ActivityId: req.body.activityId } })
+    .then((activityResult) => {
+      if (activityResult === null) {
+        res.status(404).json({
+          [process.env.PROJECT_NAME]: {
+            status: 404,
+            timestamp: Date.now(),
+            message: `Activity with ${req.body.activityId} not found!`,
+          },
+        });
+      } else {
+        activityModel
+          .update(activity, {
+            where: { ActivityId: activityResult.ActivityId },
+          })
+          .then((result) => {
+            res.status(200).json({
+              [process.env.PROJECT_NAME]: {
+                status: 200,
+                timestamp: Date.now(),
+                message: "Activity Updated",
+                data: activity,
+              },
+            });
+          })
+          .catch((error) => {
+            res.status(500).json({
+              [process.env.PROJECT_NAME]: {
+                status: 500,
+                timestamp: Date.now(),
+                message: "Something Went Wrong!",
+                data: error,
+              },
+            });
+          });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        [process.env.PROJECT_NAME]: {
+          status: 500,
+          timestamp: Date.now(),
+          message: "Something Went Wrong!",
+          data: error,
+        },
+      });
+    });
+}
+
 module.exports = {
   addActivity: addActivity,
   updateActivity: updateActivity,
   getAllActivity: getAllActivity,
   getSingleActivity: getSingleActivity,
+  updateActivityStatus: updateActivityStatus,
 };
