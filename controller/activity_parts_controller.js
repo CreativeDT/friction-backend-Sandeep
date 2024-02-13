@@ -1,8 +1,9 @@
 const activityPartsModel = require("../model/activity_parts_model");
+const partsModel = require("../model/parts_model");
 
 function addActivityParts(req, res) {
   const activityParts = {
-    PartId: req.body.partId,
+    PartsId: req.body.partsId,
     ActivityId: req.body.activityId,
     IsActive: true,
   };
@@ -32,14 +33,14 @@ function addActivityParts(req, res) {
 
 function updateActivityParts(req, res) {
   const activityParts = {
-    PartId: req.body.partId,
+    PartsId: req.body.partsId,
     ActivityId: req.body.activityId,
     IsActive: true,
   };
   activityPartsModel
     .findOne({ where: { ActivityPartsId: req.body.activityPartsId } })
-    .then((activityPartResult) => {
-      if (activityPartResult === null) {
+    .then((activityPartsResult) => {
+      if (activityPartsResult === null) {
         res.status(404).json({
           [process.env.PROJECT_NAME]: {
             status: 404,
@@ -90,6 +91,12 @@ function getAllActivityParts(req, res) {
   activityPartsModel
     .findAll({
       where: { IsActive: true },
+      include: [
+        {
+          model: partsModel,
+          attributes: ["Description", "PartNumber", "SupplierPart"],
+        },
+      ],
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
@@ -98,11 +105,20 @@ function getAllActivityParts(req, res) {
           status: 200,
           timestamp: Date.now(),
           message: "Activity Parts Fetched",
-          data: result,
+          data: result.map((part) => {
+            return {
+              ActivityId: part.ActivityId,
+              ActivityPartsId: part.ActivityPartsId,
+              Description: part.PartsId ? part.Part.Description : null,
+              SupplierPart: part.PartsId ? part.Part.SupplierPart : null,
+              PartNumber: part.PartsId ? part.Part.PartNumber : null,
+            };
+          }),
         },
       });
     })
     .catch((error) => {
+      console.log("Error Here");
       res.status(500).json({
         [process.env.PROJECT_NAME]: {
           status: 500,
@@ -116,7 +132,16 @@ function getAllActivityParts(req, res) {
 
 function getOneActivityPart(req, res) {
   activityPartsModel
-    .findOne({ where: { ActivityPartsId: req.body.activityId } })
+    .findAll({
+      where: { ActivityId: req.body.activityId, IsActive: true },
+      include: [
+        {
+          model: partsModel,
+          attributes: ["Description", "PartsId", "PartNumber"],
+        },
+      ],
+      attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
+    })
     .then((result) => {
       if (result === null) {
         res.status(404).json({
@@ -132,7 +157,15 @@ function getOneActivityPart(req, res) {
             status: 200,
             timestamp: Date.now(),
             message: "Activity Parts Fetched",
-            data: result,
+            data: result.map((part) => {
+              return {
+                ActivityId: part.ActivityId,
+                ActivityPartsId: part.ActivityPartsId,
+                Description: part.PartsId ? part.Part.Description : null,
+                SupplierPart: part.PartsId ? part.Part.SupplierPart : null,
+                PartNumber: part.PartsId ? part.Part.PartNumber : null,
+              };
+            }),
           },
         });
       }

@@ -3,8 +3,7 @@ const supplierModel = require("../model/supplier_model");
 
 function addParts(req, res) {
   const parts = {
-    PartsId: req.body.checkInStatus,
-    SupplierPart: req.body.punchDataTime,
+    SupplierPart: req.body.supplierPart,
     PartNumber: req.body.partNumber,
     Description: req.body.description,
     SupplierId: req.body.supplierId,
@@ -36,15 +35,14 @@ function addParts(req, res) {
 
 function updateParts(req, res) {
   const parts = {
-    PartsId: req.body.checkInStatus,
-    SupplierPart: req.body.punchDataTime,
+    SupplierPart: req.body.supplierPart,
     PartNumber: req.body.partNumber,
     Description: req.body.description,
     SupplierId: req.body.supplierId,
     IsActive: true,
   };
   partsModel
-    .findOne({ where: { PartssId: req.body.partsId } })
+    .findOne({ where: { PartsId: req.body.partsId } })
     .then((PartsResult) => {
       if (PartsResult === null) {
         res.status(404).json({
@@ -57,7 +55,7 @@ function updateParts(req, res) {
       } else {
         partsModel
           .update(parts, {
-            where: { PartssId: req.body.partsId },
+            where: { PartsId: req.body.partsId },
           })
           .then((result) => {
             res.status(200).json({
@@ -117,6 +115,7 @@ function getAllParts(req, res) {
               PartsId: parts.PartsId,
               Description: parts.Description,
               PartNumber: parts.PartNumber,
+              SupplierPart: parts.SupplierPart,
               Supplier: parts.SupplierId ? parts.Supplier.SupplierName : null,
             };
           }),
