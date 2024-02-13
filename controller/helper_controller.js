@@ -1,4 +1,5 @@
 const helperModel = require("../model/helper_model");
+const serviceTechModel = require("../model/service_tech_model");
 
 function addHelper(req, res) {
   const helper = {
@@ -6,6 +7,8 @@ function addHelper(req, res) {
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
+    ServiceTechId: req.body.serviceTechId,
+    ActivityId: req.body.activityId,
     IsActive: true,
   };
   helperModel
@@ -48,6 +51,8 @@ function updateHelper(req, res) {
     EstimatedWorkEndDate: req.body.estimatedWorkEndDate,
     ActualWorkStartDate: req.body.actualWorkStartDate,
     ActualWorkEndDate: req.body.actualWorkEndDate,
+    ServiceTechId: req.body.serviceTechId,
+    ActivityId: req.body.activityId,
     IsActive: true,
   };
   helperModel
@@ -105,9 +110,9 @@ function getAllHelpers(req, res) {
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
     })
     .then((result) => {
-      res.status(201).json({
+      res.status(200).json({
         [process.env.PROJECT_NAME]: {
-          status: 201,
+          status: 200,
           timestamp: Date.now(),
           message: "Fetched All Helper",
           data: result,
@@ -126,8 +131,63 @@ function getAllHelpers(req, res) {
     });
 }
 
+function getSingleForActivity(req, res) {
+  helperModel
+    .findOne({
+      where: { ActivityId: req.body.activityId, IsActive: true },
+      include: [
+        {
+          model: serviceTechModel,
+          attributes: ["ServiceTechEmail"],
+        },
+      ],
+      attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
+    })
+    .then((result) => {
+      if (result === null) {
+        res.status(404).json({
+          [process.env.PROJECT_NAME]: {
+            status: 404,
+            timestamp: Date.now(),
+            message: `Helper with ActivityId ${req.body.helperId} not found!`,
+          },
+        });
+      } else {
+        res.status(200).json({
+          [process.env.PROJECT_NAME]: {
+            status: 200,
+            timestamp: Date.now(),
+            message: "Fetched All Helper",
+            data: {
+              HelperId: result.HelperId,
+              EstimatedWorkStartDate: result.EstimatedWorkStartDate,
+              EstimatedWorkEndDate: result.EstimatedWorkEndDate,
+              ActualWorkStartDate: result.ActualWorkStartDate,
+              ActualWorkEndDate: result.ActualWorkEndDate,
+              ServiceTechEmail: result.ServiceTechId
+                ? result.ServiceTech.ServiceTechEmail
+                : null,
+              ActivityId: 1,
+            },
+          },
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        [process.env.PROJECT_NAME]: {
+          status: 500,
+          timestamp: Date.now(),
+          message: "Something Went Wrong!",
+          data: error,
+        },
+      });
+    });
+}
+
 module.exports = {
   addHelper: addHelper,
   updateHelper: updateHelper,
   getAllHelpers: getAllHelpers,
+  getSingleForActivity: getSingleForActivity,
 };

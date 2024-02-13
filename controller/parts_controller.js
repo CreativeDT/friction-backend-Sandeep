@@ -1,4 +1,5 @@
 const partsModel = require("../model/parts_model");
+const supplierModel = require("../model/supplier_model");
 
 function addParts(req, res) {
   const parts = {
@@ -97,6 +98,12 @@ function getAllParts(req, res) {
     .findAll({
       where: { IsActive: true },
       attributes: { exclude: ["CreatedAt", "UpdatedAt", "IsActive"] },
+      include: [
+        {
+          model: supplierModel,
+          attributes: ["SupplierName"],
+        },
+      ],
     })
     .then((result) => {
       res.status(200).json({
@@ -104,7 +111,15 @@ function getAllParts(req, res) {
           status: 200,
           timestamp: Date.now(),
           message: "Parts Fetched",
-          data: result,
+          data: result.map((parts) => {
+            return {
+              Id: parts.Id,
+              PartsId: parts.PartsId,
+              Description: parts.Description,
+              PartNumber: parts.PartNumber,
+              Supplier: parts.SupplierId ? parts.Supplier.SupplierName : null,
+            };
+          }),
         },
       });
     })
