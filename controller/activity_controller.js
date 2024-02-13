@@ -147,11 +147,18 @@ function getAllActivity(req, res) {
     filterMilePost,
     filterDivision,
     filterSubDivision,
+    search,
   } = req.body;
 
   const whereClause = {
     IsActive: true,
   };
+
+  if (search) {
+    whereClause["$ServiceTech.ServiceTechEmail$"] = {
+      [Op.like]: `%${search}%`,
+    };
+  }
 
   if (filterActivityTypeId) {
     whereClause.ActivityTypeId = filterActivityTypeId;
@@ -240,8 +247,17 @@ function getAllActivity(req, res) {
               ServiceTechEmail: activity.ServiceTechId
                 ? activity.ServiceTech.ServiceTechEmail
                 : null,
-              RailLocation: activity.RailUnitLocationId
+              RailRoad: activity.RailUnitLocationId
                 ? activity.RailUnitLocation.RailRoad
+                : null,
+              Division: activity.RailUnitLocationId
+                ? activity.RailUnitLocation.Division
+                : null,
+              SubDivision: activity.RailUnitLocationId
+                ? activity.RailUnitLocation.SubDivision
+                : null,
+              MilePost: activity.RailUnitLocationId
+                ? activity.RailUnitLocation.MilePost
                 : null,
               ActivityType: activity.ActivityTypeId
                 ? activity.ActivityType.ActivityName
@@ -249,6 +265,7 @@ function getAllActivity(req, res) {
               ActivityStatus: activity.ActivityStatusId
                 ? activity.ActivityStatus.Name
                 : null,
+              Helper: null,
               CreatedBy: activity.CreatedBy ? activity.User.Email : null,
             };
           }),
@@ -278,7 +295,7 @@ function getSingleActivity(req, res) {
         },
         {
           model: railUnitLocationModel,
-          attributes: ["RailRoad"],
+          attributes: ["RailRoad", "Division", "SubDivision", "MilePost"],
         },
         {
           model: activityTypeModel,
@@ -328,6 +345,15 @@ function getSingleActivity(req, res) {
                 : null,
               RailLocation: activity.RailUnitLocationId
                 ? activity.RailUnitLocation.RailRoad
+                : null,
+              Division: activity.Division
+                ? activity.RailUnitLocation.Division
+                : null,
+              SubDivision: activity.SubDivision
+                ? activity.RailUnitLocation.SubDivision
+                : null,
+              MilePost: activity.MilePost
+                ? activity.RailUnitLocation.MilePost
                 : null,
               ActivityType: activity.ActivityTypeId
                 ? activity.ActivityType.ActivityName
