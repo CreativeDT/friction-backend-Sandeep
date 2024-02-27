@@ -20,6 +20,9 @@ const userRoutes = require("./routes/user_routes");
 const uploadHistoryRoutes = require("./routes/upload_history_routes");
 const uploadTypesRoutes = require("./routes/upload_type_routes");
 
+const documentRoutes = require("./routes/ace/document_routes");
+const adminRoutes = require("./routes/ace/administrator_routes");
+
 const express = require("express");
 const cors = require("cors");
 
@@ -52,5 +55,8 @@ app.use(`${process.env.API_URL}/supplier`, supplierRoutes);
 app.use(`${process.env.API_URL}/upload-history`, uploadHistoryRoutes);
 app.use(`${process.env.API_URL}/upload-type`, uploadTypesRoutes);
 app.use(`${process.env.API_URL}/user`, userRoutes);
+
+app.use(`${process.env.API_URL}/document`, documentRoutes);
+app.use(`${process.env.API_URL}/administrator`, adminRoutes);
 
 module.exports = app;
