@@ -22,6 +22,7 @@ const uploadTypesRoutes = require("./routes/upload_type_routes");
 
 const documentRoutes = require("./routes/ace/document_routes");
 const adminRoutes = require("./routes/ace/administrator_routes");
+const adminDocuementRoutes = require("./routes/ace/admin_document_routes");
 
 const express = require("express");
 const cors = require("cors");
@@ -58,5 +59,6 @@ app.use(`${process.env.API_URL}/user`, userRoutes);
 
 app.use(`${process.env.API_URL}/document`, documentRoutes);
 app.use(`${process.env.API_URL}/administrator`, adminRoutes);
+app.use(`${process.env.API_URL}/admin-document`, adminDocuementRoutes);
 
 module.exports = app;

@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const db = require("../../utils/database_connection");
-const AdministratorModel = require("../ace/administrator_model");
 
 const Documents = db.define(
   "Documents",
@@ -28,7 +27,5 @@ const Documents = db.define(
     freezeTableName: true,
   },
 );
-
-Documents.belongsToMany(AdministratorModel, { through: "Admin_Profiles" });
 
 module.exports = Documents;

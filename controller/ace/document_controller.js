@@ -1,13 +1,14 @@
 const documentModel = require("../../model/ace/documents_model");
+const adminModel = require("../../model/ace/administrator_model");
 
 function addDocument(req, res) {
-  const document = {
+  const document = documentModel.create({
     DocumentName: req.body.documentName,
     DocumentType: req.body.documentType,
     DocumentDescription: req.body.documentDescription,
-  };
-  documentModel
-    .create(document)
+  });
+  adminModel
+    .create(document, { through: { selfGranted: false } })
     .then((result) => {
       res.status(200).json({
         [process.env.PROJECT_NAME]: {
@@ -80,34 +81,9 @@ function getAllDocuments(req, res) {
     .then((result) => {
       res.status(200).json({
         [process.env.PROJECT_NAME]: {
-          status: 500,
-          timestamp: Date.now(),
-          message: "Fetching All the Documents",
-          data: result,
-        },
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        [process.env.PROJECT_NAME]: {
-          status: 500,
-          timestamp: Date.now(),
-          message: "Something Went Wrong!",
-          data: error,
-        },
-      });
-    });
-}
-
-function getDocumentSpecificToUser(req, res) {
-  documentModel
-    .findAll({ where: {} })
-    .then((result) => {
-      res.status(200).json({
-        [process.env.PROJECT_NAME]: {
           status: 200,
           timestamp: Date.now(),
-          message: "Fetched User Sepeific Docuements",
+          message: "Fetching All the Documents",
           data: result,
         },
       });
@@ -128,5 +104,4 @@ module.exports = {
   addDocument: addDocument,
   updateDocument: updateDocument,
   getAllDocuments: getAllDocuments,
-  getDocumentSpecificToUser: getDocumentSpecificToUser,
 };
