@@ -155,10 +155,10 @@ const adminDocumentModel = {
   },
 
   delete: async (req, res) => {
-    const { adminId, documentId } = req.body;
+    const { email, documentId } = req.body;
 
     try {
-      const admin = await Administrator.findByPk(adminId);
+      const admin = await Administrator.findOne({where: {Email: email}});
 
       if (!admin) {
         return res.status(404).json({
